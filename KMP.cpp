@@ -26,5 +26,4 @@ void prefix_fun(string str){
 int main(){
 	string str,pattern;
 	cin>>str>>pattern;
-	
 }
