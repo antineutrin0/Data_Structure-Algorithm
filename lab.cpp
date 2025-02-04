@@ -25,45 +25,29 @@ using o_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_nod
 // typedef unordered_set<int>                  usi;
 
 int main(){
-  string s1,s2,s3;
-  cin>>s1;
-  cin>>s2;
-  cin>>s3;
 
-  map<char,int>mp;
-  mp['A']=0;
-  mp['B']=0;
-  mp['C']=0;
-  if(s1[1]=='>')
-  	mp[s1[0]]++;
-  if(s2[1]=='>')
-  	mp[s2[0]]++;
-  if(s3[1]=='>')
-  	mp[s3[0]]++;
-  if(s1[1]=='<')
-  	mp[s1[2]]++;
-  if(s2[1]=='<')
-  	mp[s2[2]]++;
-  if(s3[1]=='<')
-  	mp[s3[2]]++;
-  vector<pair<int,char>>vp;
-   map<int,char>mp1;
-   bool flg=1;
-   for(auto it:mp){
-    vp.push_back({it.second,it.first});
-     if(it.second!=1)
-     	flg=0;
-   }
-sort(vp);
-if(flg)
-	cout<<"Impossible"<<endl;
-else
-   {for(int i=0;i<vp.size();i++)
-   	cout<<vp[i].second;
-  cout<<endl;
-   }
+int n,q;cin>>n>>q;
+
+ vector<int>v(n+1);
+ for(int i=1;i<=n;i++)
+  cin>>v[i];
+vector<int>check(n+1,0);
+  
+  int cnt=0;
+ for(int i=3;i<=n;i++)
+ {
+  if(v[i-2]>=v[i-1]>=v[i])
+    check[i]=(++cnt);
+ }
+
+  
     
-
+    while(q--)
+    {
+      int i,j;cin>>i>>j;
+       int bads=check[j]-check[i-1];
+       cout<<j-i+1-bads*3<<endl;
+    }
 
 
 }

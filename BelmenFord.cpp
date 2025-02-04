@@ -6,7 +6,7 @@ int main(){
 	vector<vector<int>>edges;
 
    for(int i=0;i<n;i++){
-   	int u,v,w;cin>>u>>v>>w;
+   	int u,v,w;cin>>u>>v>>w; 
    	edges.push_back({u,v,w});
    }
    

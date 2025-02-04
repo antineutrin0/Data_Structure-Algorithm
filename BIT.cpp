@@ -1,11 +1,7 @@
-#include <stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-const int N=1e5;
-vector<int>bit(N);
-int n;
-
-void updatesingle(int i,int x)
+void updatesingle(int i,int x,vector<int>&bit,int n)
 {
 	while(i<=n)
 	{
@@ -14,7 +10,7 @@ void updatesingle(int i,int x)
 	}
 }
 
-int presum(int i)
+int presum(int i,vector<int>&bit,int n)
 { int ans=0;
 	while(i>0){
         ans+=bit[i];
@@ -26,8 +22,28 @@ int presum(int i)
 
 int main(){
 
-	cin>>n;
+	int t;cin>>t;
+	while(t--)
+	{
+		int n,m;cin>>n>>m;
+		vector<int>bit(n,0);
+		while(m--){
+			int a;cin>>a;
+			if(a==0)
+			{
+				int i,j,val;cin>>i>>j>>val;
+				updatesingle(i,val,bit,n);
+				updatesingle(j+1,-val,bit,n);
+			}
+			else{
+				int i,j;cin>>i>>j;
+				int result=presum(j,bit,n)-presum(i-1,bit,n);
+				cout<<result<<endl;
 
+			}
+		}
+
+	}
 	
 
 
