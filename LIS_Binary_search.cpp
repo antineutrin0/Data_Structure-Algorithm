@@ -20,7 +20,7 @@ int32_t main() {
     vector<int> v(n), sub;
     for (int i = 0; i < n; i++) 
         cin >> v[i];
-
+    
     for (int x : v) {
         auto it = lower_bound(sub.begin(), sub.end(), x); 
         if (it == sub.end()) 

@@ -50,78 +50,57 @@ const int MOD = 1e9 + 7;
 // Debugging
 #define dbg(x) cerr << #x << " = " << (x) << endl;
 
-
-void solve() {
-           int n;
-        cin >> n;
-        vector<int> nums(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> nums[i];
-        }
-        
-        vector<int> tails;
-        vector<int> lengths(n);
-        
-        for (int i = 0; i < n; ++i) {
-            int num = nums[i];
-            auto it = lower_bound(tails.begin(), tails.end(), num);
-            int pos = it - tails.begin();
-            if (it == tails.end()) {
-                tails.push_back(num);
-            } else {
-                *it = num;
-            }
-            lengths[i] = pos + 1;
-        }
-        
-        int max_length = tails.size();
-        vector<int> i;
-        int current_length = max_length;
-        int current_val = INT_MAX;
-        
-        for (int i = n - 1; i >= 0; --i) {
-            if (lengths[i] == current_length && nums[i] < current_val) {
-                i.push_back(i);
-                current_val = nums[i];
-                current_length--;
-            }
-        }
-      int cnt=0; int ans=1;
-
-       for(int i=0;i<max_length;i++)
-       {   
-         vector<int>dec;
-           vector<int>rev;
-         for(int k=n-1;k>=i[i];k--)
-            rev.push_back(nums[k]);
-         for(int j=0;j<rev.size();j++)
-         {
-             int num = rev[j];
-            auto it = lower_bound(dec.begin(), dec.end(), num);
-            int pos = it - dec.begin();
-            if (it == dec.end()) {
-                dec.push_back(num);
-            } else {
-                *it = num;
-            }
-         }
-       if(dec.size()==max_length-cnt)
-         {
-            int siz=dec.size();
-           ans=max(ans,2*siz-1);
-         }
-      cnt++;
-       }
-   
-   cout<<ans<<endl;
- 
-return;
+bool isSafe(int x,int y,int n,vector<vector<int>>&board)
+{
+	if(x>=0&&y>=0&&x<n&&y<n&&board[x][y]==-1)
+		return true;
+	else
+		return false;
 }
+
+bool knightTour(int x,int y,vector<vector<int>>&board,int step,int n,vector<int>&dx,vector<int>&dy)
+{
+	if(step==n*n)
+		return true;
+	
+	for(int i=0;i<8;i++)
+	{
+		int nx=x+dx[i];
+		int ny=y+dy[i];
+
+		if(isSafe(nx,ny,n,board))
+			{
+				board[nx][ny]=step;
+                if(knightTour(nx,ny,board,step+1,n,dx,dy))
+                	return true;
+                board[nx][ny]=-1;
+
+	}
+}
+  return false;
+}
+
+
+
 int32_t main() {
     make_faster;
-    std::ifstream file("example.txt");
-  char ch;
-    while (!file.eof()) {
-        solve();
+    int t=1;//cin>>t;
+    while (t--) {
+    int n=5;
+     vector<vector<int>> board(n, vector<int>(n, -1));
+
+    vector<int> dx = {2, 1, -1, -2, -2, -1, 1, 2};
+    vector<int> dy = {1, 2, 2, 1, -1, -2, -2, -1};
+    board[0][0]=0;
+    knightTour(0,0,board,1,5,dx,dy);
+
+    for(int i=0;i<5;i++)
+    	{
+    		for(int j=0;j<5;j++)
+    	{
+    		cout<<board[i][j]<<" ";
+    	}
+          cout<<endl;
+    }
     }
 }

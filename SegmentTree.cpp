@@ -20,7 +20,7 @@ else{
   }
 
 }
-void update(int node,int start,int end,int idx,int val,vector<int>&segmentTree){
+void update(int node,int start,int end,int i,int val,vector<int>&segmentTree){
         if(start==end){
         	segmentTree[node]=val;
         }
@@ -28,13 +28,13 @@ void update(int node,int start,int end,int idx,int val,vector<int>&segmentTree){
         	int mid=(start+end)/2;
         	int leftchild=2*node+1;
         	int rightchild=2*node+2;
-        	if(idx<=mid)
+        	if(i<=mid)
         	{
-        		update(leftchild,start,mid,idx,val,segmentTree);
+        		update(leftchild,start,mid,i,val,segmentTree);
 
         	}
         	else
-        		update(rightchild,mid+1,end,idx,val,segmentTree);
+        		update(rightchild,mid+1,end,i,val,segmentTree);
 
      segmentTree[node]=segmentTree[leftchild]+segmentTree[rightchild];
         }
@@ -91,12 +91,12 @@ int main() {
             cout << "Range sum [" << left << ", " << right << "] = " << result << "\n";
         } 
         else if (choice == 2) {
-            int idx, val;
+            int i, val;
             cout << "Enter index to update and new value: ";
-            cin >> idx >> val;
+            cin >> i >> val;
 
-            update(0, 0, n - 1, idx, val, segmentTree);
-            cout << "Updated element at index " << idx << " to " << val << ".\n";
+            update(0, 0, n - 1, i, val, segmentTree);
+            cout << "Updated element at index " << i << " to " << val << ".\n";
         } 
         else if (choice == 3) {
             cout << "Segment Tree content:\n";

@@ -52,76 +52,59 @@ const int MOD = 1e9 + 7;
 
 
 void solve() {
-           int n;
-        cin >> n;
-        vector<int> nums(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> nums[i];
-        }
-        
-        vector<int> tails;
-        vector<int> lengths(n);
-        
-        for (int i = 0; i < n; ++i) {
-            int num = nums[i];
-            auto it = lower_bound(tails.begin(), tails.end(), num);
-            int pos = it - tails.begin();
-            if (it == tails.end()) {
-                tails.push_back(num);
-            } else {
-                *it = num;
-            }
-            lengths[i] = pos + 1;
-        }
-        
-        int max_length = tails.size();
-        vector<int> i;
-        int current_length = max_length;
-        int current_val = INT_MAX;
-        
-        for (int i = n - 1; i >= 0; --i) {
-            if (lengths[i] == current_length && nums[i] < current_val) {
-                i.push_back(i);
-                current_val = nums[i];
-                current_length--;
-            }
-        }
-      int cnt=0; int ans=1;
-
-       for(int i=0;i<max_length;i++)
-       {   
-         vector<int>dec;
-           vector<int>rev;
-         for(int k=n-1;k>=i[i];k--)
-            rev.push_back(nums[k]);
-         for(int j=0;j<rev.size();j++)
-         {
-             int num = rev[j];
-            auto it = lower_bound(dec.begin(), dec.end(), num);
-            int pos = it - dec.begin();
-            if (it == dec.end()) {
-                dec.push_back(num);
-            } else {
-                *it = num;
-            }
-         }
-       if(dec.size()==max_length-cnt)
-         {
-            int siz=dec.size();
-           ans=max(ans,2*siz-1);
-         }
-      cnt++;
-       }
+	int n,e;cin>>n>>e;
    
-   cout<<ans<<endl;
- 
+	vector<vector<int>> graph(n);
+    vector<bool>assigned(n,0);
+	for(int i=0;i<e;i++)
+	{
+		int a,b;cin>>a>>b;
+		graph[a].push_back(b);
+		graph[b].push_back(a);
+	}
+    vector<int>set1;
+    vector<int>set2;
+    queue<int>q1,q2;
+    q1.push(0);
+    set1.push_back(0);
+    assigned[0]=1;
+    while(q1.size()>0||q2.size()>0){ 
+    	if(q1.size()>0)
+    	{
+    		int node=q1.front();
+    		q1.pop();
+    		for(auto it:graph[node]){
+    			if(!assigned[it])
+    				{
+    					q2.push(it);
+    					assigned[it]=true;
+    					set2.push_back(it);
+    				}
+    		}
+    	}
+
+    	if(q2.size()>0)
+    	{
+    		int node=q2.front();
+    		q2.pop();
+    		for(auto it:graph[node]){
+    			if(!assigned[it])
+    				{
+    					q1.push(it);
+    					assigned[it]=true;
+    					set1.push_back(it);
+    				}
+    		}
+    	}
+    }
+    print(set1);
+    print(set2);
 return;
 }
 int32_t main() {
     make_faster;
-    std::ifstream file("example.txt");
-  char ch;
-    while (!file.eof()) {
+    int t=1;//cin>>t;
+    while (t--) {
         solve();
     }
 }

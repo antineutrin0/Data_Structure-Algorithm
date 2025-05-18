@@ -724,7 +724,7 @@ int dinic(){
 int block, n;
 
 struct node{
-	int l, r, idx;
+	int l, r, i;
 	long long ans;
 }qry[N];
 bool cmp(node a, node b){
@@ -735,7 +735,7 @@ bool cmp(node a, node b){
 }
 
 bool cmp1(node a, node b){
-	return (a.idx < b.idx);
+	return (a.i < b.i);
 }
 int ans;
 void add(int val){

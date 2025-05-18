@@ -32,7 +32,6 @@ int32_t main() {
     }
 
     int maxValue = accumulate(value.begin(), value.end(), 0LL);
-
     
     vector<int> dp(maxValue + 1, 1e18); 
     dp[0] = 0; 

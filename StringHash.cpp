@@ -50,78 +50,46 @@ const int MOD = 1e9 + 7;
 // Debugging
 #define dbg(x) cerr << #x << " = " << (x) << endl;
 
+int modinv(int a){
+	int res=1;
+	int exp=MOD-2;
+	while(exp){
+		if(exp%2)
+			res=(res*a)%MOD;
+		res=(a*a)%MOD;
+		exp/=2;
+	}
+	return res;
+}
+
 
 void solve() {
-           int n;
-        cin >> n;
-        vector<int> nums(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> nums[i];
-        }
-        
-        vector<int> tails;
-        vector<int> lengths(n);
-        
-        for (int i = 0; i < n; ++i) {
-            int num = nums[i];
-            auto it = lower_bound(tails.begin(), tails.end(), num);
-            int pos = it - tails.begin();
-            if (it == tails.end()) {
-                tails.push_back(num);
-            } else {
-                *it = num;
-            }
-            lengths[i] = pos + 1;
-        }
-        
-        int max_length = tails.size();
-        vector<int> i;
-        int current_length = max_length;
-        int current_val = INT_MAX;
-        
-        for (int i = n - 1; i >= 0; --i) {
-            if (lengths[i] == current_length && nums[i] < current_val) {
-                i.push_back(i);
-                current_val = nums[i];
-                current_length--;
-            }
-        }
-      int cnt=0; int ans=1;
-
-       for(int i=0;i<max_length;i++)
-       {   
-         vector<int>dec;
-           vector<int>rev;
-         for(int k=n-1;k>=i[i];k--)
-            rev.push_back(nums[k]);
-         for(int j=0;j<rev.size();j++)
-         {
-             int num = rev[j];
-            auto it = lower_bound(dec.begin(), dec.end(), num);
-            int pos = it - dec.begin();
-            if (it == dec.end()) {
-                dec.push_back(num);
-            } else {
-                *it = num;
-            }
-         }
-       if(dec.size()==max_length-cnt)
-         {
-            int siz=dec.size();
-           ans=max(ans,2*siz-1);
-         }
-      cnt++;
-       }
-   
-   cout<<ans<<endl;
- 
+	int n;cin>>n;
+    int l,r;cin>>l>>r;
+	string s;cin>>s;
+	vector<int>prehash(n,0);
+	vector<int>pow31(n,1);
+	int pr=1;
+	int hash=0;
+	for(int i=0;i<n;i++)
+	{
+		 if (i) pow31[i] = (pow31[i - 1] * 31) % MOD;
+        hash = (hash + ((s[i] - 'a' + 1) * pow31[i]) % MOD) % MOD;
+        prehash[i] = hash;
+	}
+	int result;
+	if (l > 0) {
+        result = (prehash[r] - prehash[l - 1] + MOD) % MOD;
+        result = (result * modinv(pow31[l])) % MOD;
+    }
+    cout << "Hash of s[" << l << ".." << r << "] is: " << result << endl;
+	
 return;
 }
 int32_t main() {
     make_faster;
-    std::ifstream file("example.txt");
-  char ch;
-    while (!file.eof()) {
+    int t=1;cin>>t;
+    while (t--) {
         solve();
     }
 }

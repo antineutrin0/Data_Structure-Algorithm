@@ -50,78 +50,47 @@ const int MOD = 1e9 + 7;
 // Debugging
 #define dbg(x) cerr << #x << " = " << (x) << endl;
 
+void solve(int l,int h) {
+    int n=sqrt(h);
+	vector<int>primes;
+    vector<bool>isPrimes(n+1,0);
 
-void solve() {
-           int n;
-        cin >> n;
-        vector<int> nums(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> nums[i];
-        }
-        
-        vector<int> tails;
-        vector<int> lengths(n);
-        
-        for (int i = 0; i < n; ++i) {
-            int num = nums[i];
-            auto it = lower_bound(tails.begin(), tails.end(), num);
-            int pos = it - tails.begin();
-            if (it == tails.end()) {
-                tails.push_back(num);
-            } else {
-                *it = num;
-            }
-            lengths[i] = pos + 1;
-        }
-        
-        int max_length = tails.size();
-        vector<int> i;
-        int current_length = max_length;
-        int current_val = INT_MAX;
-        
-        for (int i = n - 1; i >= 0; --i) {
-            if (lengths[i] == current_length && nums[i] < current_val) {
-                i.push_back(i);
-                current_val = nums[i];
-                current_length--;
-            }
-        }
-      int cnt=0; int ans=1;
+  for(int i=2;i*i<=n;i++)
+  {
+  	for(int j=i*i;j<=n;j+=i)
+  		isPrimes[j]=1;
+  }
 
-       for(int i=0;i<max_length;i++)
-       {   
-         vector<int>dec;
-           vector<int>rev;
-         for(int k=n-1;k>=i[i];k--)
-            rev.push_back(nums[k]);
-         for(int j=0;j<rev.size();j++)
-         {
-             int num = rev[j];
-            auto it = lower_bound(dec.begin(), dec.end(), num);
-            int pos = it - dec.begin();
-            if (it == dec.end()) {
-                dec.push_back(num);
-            } else {
-                *it = num;
-            }
-         }
-       if(dec.size()==max_length-cnt)
-         {
-            int siz=dec.size();
-           ans=max(ans,2*siz-1);
-         }
-      cnt++;
-       }
-   
-   cout<<ans<<endl;
+  for(int i=2;i<=n;i++)
+  {
+  	if(isPrimes[i]==0)
+  		primes.push_back(i);
+  }
+  print(primes)
+  vector<int>segmented_sieve(h-l+1,0);
+
+  for(int i=0;i<primes.size();i++)
+  {
+  	int p=primes[i];
+  	int start = max(p * p, ((l + p - 1) / p) * p);
+  	for(int j=start;j<=h;j+=p)
+         segmented_sieve[j-l]=1;
+  }
+  int cnt=0;
+  for (int i = 0; i < h-l+1; ++i)
+  {
+  	if(segmented_sieve[i]==0)
+  		cnt++;
+  }
+  cout<<cnt<<endl;
  
 return;
 }
 int32_t main() {
     make_faster;
-    std::ifstream file("example.txt");
-  char ch;
-    while (!file.eof()) {
-        solve();
+    int t=1;//cin>>t;
+    while (t--) {
+    	int l,h;cin>>l>>h;
+        solve(l,h);
     }
 }

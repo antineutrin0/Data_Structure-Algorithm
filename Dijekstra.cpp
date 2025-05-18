@@ -3,13 +3,13 @@ using namespace std;
 
 const int N = 1e5;
 int INF = 1e9;
-vector<pair<int, int>> g[N];
+vector<pair<int,int>> g[N];
 vector<bool> vis;
 vector<int> dist(N, INF);
 
 void dijekstra(int source) {
     set<pair<int, int>> q;
-    dist[source] = 0;
+    dist[source] = 0; 
     q.insert({0, source});
     while (!q.empty()) {
         auto node = *q.begin();
